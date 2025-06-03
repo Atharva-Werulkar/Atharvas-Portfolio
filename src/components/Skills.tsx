@@ -3,12 +3,12 @@ const Skills = () => {
   const skillCategories = [
     {
       title: "Mobile & Cross-Platform",
-      skills: ["Flutter", "Dart", "Bloc Pattern", "Provider", "JSON-based Dynamic UI"],
+      skills: ["Flutter", "Dart","Shorebird","Codemagic", "Bloc Pattern", "JSON-based Dynamic UI"],
       delay: "0ms"
     },
     {
       title: "Backend & APIs",
-      skills: ["Node.js", "Express.js", "Supabase", "Firebase", "REST APIs", "WebSocket"],
+      skills: ["Node.js", "Supabase", "Firebase", "REST APIs", "WebSocket"],
       delay: "100ms"
     },
     {
@@ -18,7 +18,7 @@ const Skills = () => {
     },
     {
       title: "Cloud & Tools",
-      skills: ["Supabase Studio", "Firebase Console", "Git", "GitHub Actions"],
+      skills: ["Google Cloud Console", "OneSignal","OPTless", "Firebase Console", "Git", "GitHub Actions"],
       delay: "300ms"
     },
     {
