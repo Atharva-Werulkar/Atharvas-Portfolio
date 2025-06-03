@@ -1,9 +1,9 @@
-
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const resumeLink = "https://drive.google.com/file/d/1txfMvHPsHlxUUv91X5mlD9lBzCC2kNOf/view?usp=sharing";
 
   const menuItems = [
     { label: "About Me", href: "#about" },
@@ -31,7 +31,10 @@ const Header = () => {
             ))}
           </nav>
 
-          <button className="hidden md:block bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-all duration-200 hover:scale-105">
+          <button 
+            className="hidden md:block bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-all duration-200 hover:scale-105"
+            onClick={() => window.open(resumeLink, '_blank')}
+          >
             Resume
           </button>
 
@@ -58,7 +61,10 @@ const Header = () => {
                   {item.label}
                 </a>
               ))}
-              <button className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 self-start">
+              <button 
+                className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 self-start"
+                onClick={() => window.open(resumeLink, '_blank')}
+              >
                 Resume
               </button>
             </nav>

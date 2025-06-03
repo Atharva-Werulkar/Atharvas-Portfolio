@@ -22,7 +22,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        const response = await fetch('https://api.github.com/users/AtharvaWerulkar/repos?sort=updated&per_page=6');
+        const response = await fetch('https://api.github.com/users/Atharva-Werulkar/repos?sort=updated&per_page=6');
         if (!response.ok) {
           throw new Error('Failed to fetch repositories');
         }

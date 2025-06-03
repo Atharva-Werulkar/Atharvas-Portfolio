@@ -1,25 +1,18 @@
-
 import { Calendar, MapPin } from "lucide-react";
 
 const Experience = () => {
   const experiences = [
     {
-      role: "Lead Backend Engineer at Google",
-      duration: "Aug 2018 - Present",
-      description: "I am working across multiple teams including backend, frontend, and DevOps. I have helped in migrating the major application to React.js and React-Native and have overseen deployment of several machine learning models.",
-      location: "Mountain View, CA"
+      role: "Flutter Developer Intern at ProCohat",
+      duration: "Jun 2024 - Present",
+      description: "Developed login authentication, implemented TDS calculation for 1,000+ users, and integrated email service API in Flutter. Enhanced dashboard with updated KPIs for live Play Store application.",
+      location: "Nagpur, India"
     },
     {
-      role: "Software Engineer at Youtube",
-      duration: "Jan 2017 - Jul 2018",
-      description: "Working on creating platforms involved in YouTube growth and engagement including developing apps used by 10M+ users and helping to drive international expansion.",
-      location: "San Bruno, CA"
-    },
-    {
-      role: "Junior Software Engineer at Apple",
-      duration: "Jun 2015 - Dec 2016",
-      description: "Worked on building consumer-focused web applications using React.js, Node.js, and PostgreSQL. Additionally gained experience working with iOS and Android mobile applications.",
-      location: "Cupertino, CA"
+      role: "Flutter Developer Intern at brewnbeer",
+      duration: "Aug 2023 - Feb 2024",
+      description: "Orchestrated the successful delivery of 3 high-stakes client projects, tailoring solutions to meet specific requirements; boosted client satisfaction scores by 20%.",
+      location: "Mumbai, India"
     }
   ];
 
