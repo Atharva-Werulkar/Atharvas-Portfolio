@@ -9,7 +9,8 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "tsx watch server/index.ts"
+    "vercel-build": "vite build",
+    "start": "vite preview --host"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
