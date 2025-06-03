@@ -1,69 +1,145 @@
 
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, Star, GitFork } from "lucide-react";
+import { useState, useEffect } from "react";
+
+interface Repository {
+  id: number;
+  name: string;
+  description: string | null;
+  html_url: string;
+  stargazers_count: number;
+  forks_count: number;
+  language: string | null;
+  updated_at: string;
+  topics: string[];
+}
 
 const Projects = () => {
-  const projects = [
-    {
-      title: "Crypto Screener Application",
-      description: "I'm a developer focused on creating responsive, cross-platform applications for cryptocurrency monitoring and analysis.",
-      image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&h=400&fit=crop",
-      number: "01"
-    },
-    {
-      title: "Euphoria - Ecommerce (Apparel) Website Template",
-      description: "Providing comprehensive services from concept to implementation and testing for modern ecommerce platforms.",
-      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
-      number: "02"
-    },
-    {
-      title: "Blog Website Template",
-      description: "I have built a responsive blog template with modern design principles and optimal user experience.",
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&h=400&fit=crop",
-      number: "03"
-    }
-  ];
+  const [repos, setRepos] = useState<Repository[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchRepos = async () => {
+      try {
+        const response = await fetch('https://api.github.com/users/AtharvaWerulkar/repos?sort=updated&per_page=6');
+        if (!response.ok) {
+          throw new Error('Failed to fetch repositories');
+        }
+        const data = await response.json();
+        setRepos(data);
+      } catch (err) {
+        setError('Failed to load repositories');
+        console.error('Error fetching repos:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRepos();
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="projects" className="py-16 px-4 sm:px-6 lg:px-8 bg-black text-white">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16">
+            My Projects
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-gray-800 rounded-xl p-6 animate-pulse">
+                <div className="h-4 bg-gray-700 rounded mb-4"></div>
+                <div className="h-20 bg-gray-700 rounded mb-4"></div>
+                <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="projects" className="py-16 px-4 sm:px-6 lg:px-8 bg-black text-white">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-8">My Projects</h2>
+          <p className="text-red-400">{error}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="projects" className="py-16 px-4 sm:px-6 lg:px-8 bg-black text-white">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16">
+        <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16 opacity-0 animate-fade-in">
           My Projects
         </h2>
         
-        <div className="space-y-16">
-          {projects.map((project, index) => (
-            <div key={index} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <div className={`${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-64 sm:h-80 object-cover rounded-xl"
-                />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {repos.map((repo, index) => (
+            <div 
+              key={repo.id} 
+              className="bg-gray-900 rounded-xl p-6 hover:bg-gray-800 transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in border border-gray-800"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="text-xl font-bold text-white truncate">
+                  {repo.name}
+                </h3>
+                <div className="flex items-center space-x-1 text-yellow-400">
+                  <Star size={16} />
+                  <span className="text-sm">{repo.stargazers_count}</span>
+                </div>
               </div>
               
-              <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                <div className="text-6xl sm:text-7xl font-bold text-gray-800">
-                  {project.number}
+              <p className="text-gray-300 text-sm mb-4 h-12 overflow-hidden">
+                {repo.description || "No description available"}
+              </p>
+              
+              <div className="flex items-center justify-between mb-4">
+                {repo.language && (
+                  <span className="bg-blue-600 text-xs px-2 py-1 rounded">
+                    {repo.language}
+                  </span>
+                )}
+                <div className="flex items-center space-x-1 text-gray-400">
+                  <GitFork size={14} />
+                  <span className="text-xs">{repo.forks_count}</span>
                 </div>
-                
-                <h3 className="text-2xl sm:text-3xl font-bold text-white">
-                  {project.title}
-                </h3>
-                
-                <p className="text-gray-300 leading-relaxed">
-                  {project.description}
-                </p>
-                
-                <div className="flex space-x-4">
-                  <button className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors duration-200">
-                    <ExternalLink size={20} />
-                    <span>Live Demo</span>
-                  </button>
-                  <button className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors duration-200">
-                    <Github size={20} />
-                    <span>View Code</span>
-                  </button>
+              </div>
+              
+              {repo.topics.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {repo.topics.slice(0, 3).map((topic) => (
+                    <span key={topic} className="bg-gray-700 text-xs px-2 py-1 rounded">
+                      {topic}
+                    </span>
+                  ))}
                 </div>
+              )}
+              
+              <div className="flex space-x-4">
+                <a 
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors duration-200"
+                >
+                  <Github size={16} />
+                  <span className="text-sm">View Code</span>
+                </a>
+                <a 
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors duration-200"
+                >
+                  <ExternalLink size={16} />
+                  <span className="text-sm">Details</span>
+                </a>
               </div>
             </div>
           ))}
