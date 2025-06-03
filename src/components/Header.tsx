@@ -13,19 +13,17 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white shadow-sm fixed w-full top-0 z-50 opacity-0 animate-fade-in">
+    <header className="bg-black shadow-sm fixed w-full top-0 z-50 opacity-0 animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-           <img src="/assets/logo.png" alt="Personal Logo" className="h-10 mb-4 sm:mb-0" />
-          
-          
+           <img src="/assets/logo.png" alt="Personal Logo" className="h-10 mb-4 sm:mb-0 p-1" />
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {menuItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="text-gray-600 hover:text-gray-900 transition-colors duration-200 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-black after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+                className="text-gray-300 hover:text-white transition-colors duration-200 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
               >
                 {item.label}
               </a>
@@ -33,7 +31,7 @@ const Header = () => {
           </nav>
 
           <button 
-            className="hidden md:block bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-all duration-200 hover:scale-105"
+            className="hidden md:block bg-white text-black px-6 py-2 rounded-md hover:bg-gray-200 transition-all duration-200 hover:scale-105 font-semibold"
             onClick={() => window.open(resumeLink, '_blank')}
           >
             Resume
@@ -41,7 +39,7 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden transition-transform duration-200 hover:scale-110"
+            className="md:hidden transition-transform duration-200 hover:scale-110 text-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -56,14 +54,14 @@ const Header = () => {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
                 </a>
               ))}
               <button 
-                className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 self-start"
+                className="bg-white text-black px-6 py-2 rounded-md hover:bg-gray-200 transition-colors duration-200 self-start font-semibold"
                 onClick={() => window.open(resumeLink, '_blank')}
               >
                 Resume

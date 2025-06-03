@@ -1,4 +1,3 @@
-
 import { ExternalLink, Github, Star, GitFork } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -22,7 +21,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        const response = await fetch('https://api.github.com/users/Atharva-Werulkar/repos?sort=updated&per_page=6');
+        const response = await fetch('https://api.github.com/users/Atharva-Werulkar/repos?sort=pushed&per_page=6');
         if (!response.ok) {
           throw new Error('Failed to fetch repositories');
         }
@@ -87,7 +86,12 @@ const Projects = () => {
             >
               <div className="flex items-start justify-between mb-4">
                 <h3 className="text-xl font-bold text-white truncate">
-                  {repo.name}
+                  {repo.name
+                    .split('_')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ')
+                    .replace(/-/g, ' ')
+                  }
                 </h3>
                 <div className="flex items-center space-x-1 text-yellow-400">
                   <Star size={16} />
