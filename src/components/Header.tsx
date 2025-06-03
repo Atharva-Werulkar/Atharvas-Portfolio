@@ -16,7 +16,8 @@ const Header = () => {
     <header className="bg-white shadow-sm fixed w-full top-0 z-50 opacity-0 animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <div className="text-2xl font-bold text-gray-900">Atharva Werulkar</div>
+           <img src="/assets/logo.png" alt="Personal Logo" className="h-10 mb-4 sm:mb-0" />
+          
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">

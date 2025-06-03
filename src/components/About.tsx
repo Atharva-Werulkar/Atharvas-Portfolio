@@ -6,7 +6,7 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="flex justify-center opacity-0 animate-fade-in">
             <img
-              src="/lovable-uploads/99ba1a6f-0cd8-4066-9842-244b34f496f9.png"
+              src="/assets/99ba1a6f-0cd8-4066-9842-244b34f496f9.png"
               alt="About me illustration"
               className="w-80 h-96 object-contain"
             />
