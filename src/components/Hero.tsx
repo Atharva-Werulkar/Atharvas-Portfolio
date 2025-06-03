@@ -42,11 +42,10 @@ const Hero = () => {
           <div className="flex justify-center lg:justify-end">
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+                src="/lovable-uploads/62411c3b-f1f8-41ee-9b21-fb1ac899891a.png"
                 alt="Developer illustration"
-                className="w-80 h-80 object-cover rounded-full border-4 border-gray-100 shadow-lg"
+                className="w-80 h-80 object-contain"
               />
-              <div className="absolute inset-0 rounded-full border-4 border-gray-200 animate-pulse"></div>
             </div>
           </div>
         </div>
