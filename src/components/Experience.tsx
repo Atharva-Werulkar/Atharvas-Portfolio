@@ -1,6 +1,13 @@
 import { Calendar, MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const Experience = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setIsVisible(true), 100);
+  }, []);
+
   const experiences = [
     {
       role: "Flutter Developer Intern at ProCohat",
@@ -17,35 +24,72 @@ const Experience = () => {
   ];
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-black text-white">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16">
-          My Experience
-        </h2>
+    <section className="py-16 px-4 bg-black text-white min-h-screen relative overflow-hidden">
+      {/* Background Grid */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }}></div>
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className={`text-center mb-16 transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'
+        }`}>
+          <h2 className="text-4xl font-extrabold text-white mb-4 font-heading">
+            My Experience
+          </h2>
+        </div>
         
-        <div className="space-y-8">
-          {experiences.map((exp, index) => (
-            <div key={index} className="bg-gray-900 p-6 sm:p-8 rounded-xl">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-                <h3 className="text-xl font-semibold text-white mb-2 sm:mb-0">
-                  {exp.role}
-                </h3>
-                <div className="flex items-center text-gray-400 text-sm">
-                  <Calendar size={16} className="mr-2" />
-                  {exp.duration}
+        <div className="relative">
+          {/* Timeline line */}
+          <div className="absolute left-0 md:left-1/2 transform md:-translate-x-px top-0 h-full w-[2px] bg-gradient-to-b from-white/5 via-white/20 to-white/5"></div>
+          
+          <div className="space-y-12">
+            {experiences.map((exp, index) => (
+              <div 
+                key={index}
+                className={`relative transition-all duration-1000 delay-${index * 200} ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+              >
+                {/* Timeline dot */}
+                <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4">
+                  <div className="w-full h-full rounded-full bg-white/20 backdrop-blur-sm border border-white/30 animate-pulse"></div>
+                </div>
+
+                {/* Content */}
+                <div className={`ml-8 md:ml-0 ${
+                  index % 2 === 0 ? 'md:mr-[50%] md:pr-12' : 'md:ml-[50%] md:pl-12'
+                }`}>
+                  <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-white/20 transition-all duration-300">
+                    <div className="flex flex-col space-y-2 mb-4">
+                      <h3 className="text-xl font-semibold text-white/90 font-heading">
+                        {exp.role}
+                      </h3>
+                      <div className="flex items-center space-x-4 text-sm text-white/60">
+                        <div className="flex items-center">
+                          <Calendar size={14} className="mr-1.5" />
+                          <span>{exp.duration}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <MapPin size={14} className="mr-1.5" />
+                          <span>{exp.location}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-white/70 text-sm leading-relaxed font-sans">
+                      {exp.description}
+                    </p>
+                  </div>
                 </div>
               </div>
-              
-              <div className="flex items-center text-gray-400 text-sm mb-4">
-                <MapPin size={16} className="mr-2" />
-                {exp.location}
-              </div>
-              
-              <p className="text-gray-300 leading-relaxed">
-                {exp.description}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

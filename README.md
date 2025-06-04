@@ -1,73 +1,105 @@
-# Welcome to your Lovable project
+# Modern Portfolio Website 🚀
 
-## Project info
+![Tech Stack](https://skillicons.dev/icons?i=react,ts,tailwind,vite)
 
-**URL**: https://lovable.dev/projects/e9bbb36d-a44f-4cf7-bdb7-b63405d59aef
+A sleek, responsive portfolio website built with modern web technologies. Features a clean design, smooth animations, and an excellent user experience.
 
-## How can I edit this code?
+## ✨ Features
 
-There are several ways of editing your application.
+- 🎨 **Modern UI/UX** - Clean and minimalist design with subtle animations
+- 📱 **Fully Responsive** - Looks great on all devices
+- 🌙 **Dark Mode** - Elegant dark theme by default
+- ⚡ **Fast Performance** - Built with Vite for lightning-fast load times
+- 🔄 **Dynamic Projects** - Automatically pulls and displays GitHub repositories
+- 💼 **Professional Sections**:
+  - Hero Introduction
+  - About Me
+  - Skills & Technologies
+  - Project Showcase
+  - Experience Timeline
+  - Contact Form
 
-**Use Lovable**
+## 🛠️ Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e9bbb36d-a44f-4cf7-bdb7-b63405d59aef) and start prompting.
+- **Framework**: React 18 with TypeScript
+- **Styling**: Tailwind CSS with custom animations
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Build Tool**: Vite
+- **Deployment**: Vercel
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🚀 Getting Started
 
-**Use your preferred IDE**
+1. **Clone the repository**
+   ```powershell
+   git clone <repository-url>
+   cd react-site-design
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. **Install dependencies**
+   ```powershell
+   npm install
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. **Start the development server**
+   ```powershell
+   npm run dev
+   ```
 
-Follow these steps:
+4. **Open your browser**
+   ```
+   http://localhost:5173
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 📁 Project Structure
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+src/
+├── components/         # React components
+│   ├── Hero.tsx       # Hero section
+│   ├── About.tsx      # About section
+│   ├── Skills.tsx     # Skills showcase
+│   ├── Projects.tsx   # Projects display
+│   ├── Experience.tsx # Experience timeline
+│   └── Contact.tsx    # Contact form
+├── hooks/             # Custom React hooks
+├── lib/              # Utility functions
+└── pages/            # Page components
 ```
 
-**Edit a file directly in GitHub**
+## ✨ Customization
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. **Personal Information**: Update your personal details in `src/components/Hero.tsx` and `src/components/About.tsx`
 
-**Use GitHub Codespaces**
+2. **Projects**: Your GitHub projects are automatically fetched. Configure the username in `src/components/Projects.tsx`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+3. **Skills**: Modify the skills list in `src/components/Skills.tsx`
 
-## What technologies are used for this project?
+4. **Experience**: Update your work experience in `src/components/Experience.tsx`
 
-This project is built with:
+5. **Styling**: Customize colors and themes in `tailwind.config.ts`
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 📧 Contact Form
 
-## How can I deploy this project?
+The contact form is fully functional and integrated with a serverless API. To configure:
 
-Simply open [Lovable](https://lovable.dev/projects/e9bbb36d-a44f-4cf7-bdb7-b63405d59aef) and click on Share -> Publish.
+1. Set up your environment variables
+2. Update the email configuration in `api/send-email.ts`
 
-## Can I connect a custom domain to my Lovable project?
+## 🚀 Deployment
 
-Yes, you can!
+This project is optimized for deployment on Vercel:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Push your changes to GitHub
+2. Connect your repository to Vercel
+3. Deploy!
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📄 License
+
+This project is licensed under the MIT License. Feel free to use it for your personal portfolio!
+
+---
+
+<p align="center">
+Made with ❤️ using React and TypeScript
+</p>
