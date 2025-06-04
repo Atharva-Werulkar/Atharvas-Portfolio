@@ -63,7 +63,7 @@ const Skills = () => {
   }, []);
 
   return (
-    <section id="skills" className="min-h-screen bg-white text-black relative overflow-hidden">
+    <section id="skills" className="min-h-screen bg-white text-black relative overflow-hidden scroll-mt-20">
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{

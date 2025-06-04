@@ -24,7 +24,7 @@ const Experience = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-black text-white min-h-screen relative overflow-hidden">
+    <section className="py-16 px-4 bg-black text-white min-h-screen relative overflow-hidden scroll-mt-20">
       {/* Background Grid */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
