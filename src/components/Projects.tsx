@@ -54,6 +54,15 @@ const Projects = () => {
     setTimeout(() => setIsVisible(true), 100);
   }, []);
 
+  // Auto-slide projects every 5 seconds
+  useEffect(() => {
+    if (!repos.length) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % repos.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [repos]);
+
   // Intersection Observer setup
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -280,39 +289,45 @@ const Projects = () => {
 
               {/* Project Preview Grid */}
               <div className="grid grid-cols-2 gap-4">
-                {repos.slice(0, 4).map((repo, index) => (
-                  <button
-                    key={repo.id}
-                    onClick={() => goToProject(index)}
-                    className={`text-left p-4 rounded-lg border transition-all duration-300 ${
-                      index === currentIndex
-                        ? "border-white bg-white/5 scale-105"
-                        : "border-gray-800 hover:border-gray-600 hover:bg-white/5"
-                    }`}
-                  >
-                    <h4 className="font-medium text-sm mb-1 truncate">
-                      {repo.name
-                        .split(/[-_]/)
-                        .map(
-                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                        )
-                        .join(" ")}
-                    </h4>
-                    <p className="text-xs text-gray-400 line-clamp-2">
-                      {repo.description?.slice(0, 60) || "No description"}
-                      ...
-                    </p>
-                    <div className="flex items-center space-x-2 mt-2 text-xs text-gray-500">
-                      <Star size={12} />
-                      <span>{repo.stargazers_count}</span>
-                      {repo.language && (
-                        <span className="px-1 py-0.5 bg-gray-800 rounded text-xs">
-                          {repo.language}
-                        </span>
-                      )}
-                    </div>
-                  </button>
-                ))}
+                {repos.length > 1 &&
+                  Array.from({ length: Math.min(4, repos.length) }).map((_, i) => {
+                    // Always show the next 4 projects in order, wrapping around, skipping the current
+                    const previewIndex = (currentIndex + i) % repos.length;
+                    const repo = repos[previewIndex];
+                    return (
+                      <button
+                        key={repo.id}
+                        onClick={() => goToProject(previewIndex)}
+                        className={`text-left p-4 rounded-lg border transition-all duration-300 ${
+                          previewIndex === currentIndex
+                            ? "border-white bg-white/5 scale-105"
+                            : "border-gray-800 hover:border-gray-600 hover:bg-white/5"
+                        }`}
+                      >
+                        <h4 className="font-medium text-sm mb-1 truncate">
+                          {repo.name
+                            .split(/[-_]/)
+                            .map(
+                              (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ")}
+                        </h4>
+                        <p className="text-xs text-gray-400 line-clamp-2">
+                          {repo.description?.slice(0, 60) || "No description"}
+                          ...
+                        </p>
+                        <div className="flex items-center space-x-2 mt-2 text-xs text-gray-500">
+                          <Star size={12} />
+                          <span>{repo.stargazers_count}</span>
+                          {repo.language && (
+                            <span className="px-1 py-0.5 bg-gray-800 rounded text-xs">
+                              {repo.language}
+                            </span>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
               </div>
             </div>
           </div>

@@ -30,7 +30,7 @@ const Skills = () => {
   {
     title: "Cloud & Tools",
     icon: <Cloud size={24} />,
-    skills: ["Google Cloud Console", "OneSignal", "OPTless", "Firebase Console", "Git", "GitHub Actions"],
+    skills: ["Google Cloud Console", "OneSignal", "OTPless", "Firebase Console", "Git", "GitHub Actions"],
     color: "from-white to-gray-100",
     border: "border-gray-300"
   },

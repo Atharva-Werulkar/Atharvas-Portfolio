@@ -5,8 +5,14 @@ import nodemailer from 'nodemailer';
 const app = express();
 const port = 3001;
 
-app.use(cors());
+app.use(cors({
+  origin: ['https://atharva-werulkar.vercel.app','https://profolio-new.vercel.app', 'http://localhost:3001'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true
+}));
 app.use(express.json());
+
+
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -14,6 +20,11 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER || 'werulkaratharva@gmail.com',
     pass: process.env.EMAIL_PASSWORD || 'rfio rcse jpqm ypmv'
   }
+});
+
+//home route
+app.get('/api/home', (req, res) => {
+  res.json({ message: 'Welcome to the home page!' });
 });
 
 app.post('/api/send-email', async (req, res) => {
