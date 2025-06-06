@@ -6,7 +6,7 @@ const app = express();
 const port = 3001;
 
 app.use(cors({
-  origin: ['https://atharva-werulkar.vercel.app','https://profolio-new.vercel.app', 'http://localhost:3001', 'https://profolio-new.vercel.app/api/send-email'],
+  origin: ['http://localhost:8080', 'https://atharva-werulkar.vercel.app', 'https://profolio-new.vercel.app'],
   methods: ['GET', 'POST', 'OPTIONS'],
   credentials: true
 }));
