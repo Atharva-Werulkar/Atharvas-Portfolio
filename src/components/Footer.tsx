@@ -1,7 +1,6 @@
-
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-8 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-black text-white py-8 px-4 sm:px-6 lg:px-8 border-t border-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <img src="/assets/logo.png" alt="Personal Logo" className="h-10 mb-4 sm:mb-0" />

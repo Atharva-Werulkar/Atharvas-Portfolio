@@ -5,11 +5,11 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const resumeLink = "https://drive.google.com/file/d/1txfMvHPsHlxUUv91X5mlD9lBzCC2kNOf/view?usp=sharing";
-
   const menuItems = [
     { label: "About Me", href: "#about" },
     { label: "Skills", href: "#skills" },
     { label: "Projects", href: "#projects" },
+    { label: "Blogs", href: "#blogs" },
     { label: "Contact Me", href: "#contact" },
   ];
 

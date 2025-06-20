@@ -16,8 +16,11 @@ A sleek, responsive portfolio website built with modern web technologies. Featur
   - About Me
   - Skills & Technologies
   - Project Showcase
+  - Blog Posts Carousel
   - Experience Timeline
   - Contact Form
+- 📝 **Dynamic Blog Integration** - Fetches latest posts from Medium RSS feed
+- 🎠 **Interactive Carousel** - Beautiful carousel for blog posts with navigation
 
 ## 🛠️ Tech Stack
 
@@ -60,11 +63,18 @@ src/
 │   ├── About.tsx      # About section
 │   ├── Skills.tsx     # Skills showcase
 │   ├── Projects.tsx   # Projects display
+│   ├── Blogs.tsx      # Blog carousel section
 │   ├── Experience.tsx # Experience timeline
 │   └── Contact.tsx    # Contact form
 ├── hooks/             # Custom React hooks
 ├── lib/              # Utility functions
-└── pages/            # Page components
+├── pages/            # Page components
+└── api/              # API utilities
+
+server/
+├── index.ts          # Express server with blog API
+├── package.json      # Server dependencies
+└── vercel.json       # Deployment config
 ```
 
 ## ✨ Customization
@@ -85,6 +95,42 @@ The contact form is fully functional and integrated with a serverless API. To co
 
 1. Set up your environment variables
 2. Update the email configuration in `api/send-email.ts`
+
+## 📝 Blog Integration
+
+The portfolio features a dynamic blog section that automatically fetches your latest posts from Medium:
+
+### Features
+- 🎠 **Carousel Display** - Interactive carousel with navigation arrows
+- 📱 **Responsive Design** - Adapts beautifully to all screen sizes
+- ⚡ **Smart Fallback** - Server-side processing with client-side fallback
+- 📊 **Enhanced Data** - Displays read time, categories, and excerpts
+- 🔗 **Direct Links** - Easy navigation to full articles
+
+### Backend Server
+The project includes a Node.js/Express server for blog processing:
+
+```bash
+# Start both server and client
+.\start-dev.ps1  # PowerShell
+# or
+.\start-dev.bat  # Command Prompt
+
+# Or manually:
+cd server && npm run dev  # Server (Port 3001)
+npm run dev              # Client (Port 8080)
+```
+
+### Blog Configuration
+- **RSS Source**: Medium RSS feed (`@werulkaratharva`)
+- **Endpoint**: `/api/blogs` - Returns processed blog data
+- **Fallback**: Direct RSS fetch if server unavailable
+- **Data Processing**: Extracts thumbnails, calculates read time, formats content
+
+### Customization
+1. Update the Medium username in `server/index.ts`
+2. Modify blog display settings in `src/components/Blogs.tsx`
+3. Customize carousel settings in the component props
 
 ## 🚀 Deployment
 

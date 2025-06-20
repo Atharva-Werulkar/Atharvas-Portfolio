@@ -105,6 +105,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* Custom Animations */
 @keyframes fadeInUp {
   from {
@@ -117,6 +132,15 @@ html {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes slideIn {
   from {
     transform: translateY(100%);
@@ -126,6 +150,10 @@ html {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
 .animate-fade-in-up {
@@ -141,10 +169,68 @@ html {
   animation-delay: 200ms;
 }
 
+.delay-300 {
+  animation-delay: 300ms;
+}
+
 .delay-400 {
   animation-delay: 400ms;
 }
 
+.delay-500 {
+  animation-delay: 500ms;
+}
+
 .delay-600 {
   animation-delay: 600ms;
+}
+
+/* Blog carousel improvements */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth hover animations for blog cards */
+.blog-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blog-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar for carousel */
+.embla__viewport {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+/* Gradient overlay for better text readability */
+.gradient-overlay {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
 }

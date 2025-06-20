@@ -12,7 +12,31 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Types for blog response
+interface BlogPost {
+  title: string;
+  pubDate: string;
+  link: string;
+  guid: string;
+  author: string;
+  thumbnail: string;
+  description: string;
+  content: string;
+  categories: string[];
+}
 
+interface BlogResponse {
+  status: string;
+  feed: {
+    url: string;
+    title: string;
+    link: string;
+    author: string;
+    description: string;
+    image: string;
+  };
+  items: BlogPost[];
+}
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -22,9 +46,66 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Helper functions
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, '');
+}
+
+function extractThumbnail(content: string): string | null {
+  const imgRegex = /<img[^>]+src="([^">]+)"/;
+  const match = content.match(imgRegex);
+  return match ? match[1] : null;
+}
+
+function calculateReadTime(content: string): number {
+  const text = stripHtml(content);
+  const wordsPerMinute = 200;
+  const wordCount = text.split(/\s+/).length;
+  return Math.ceil(wordCount / wordsPerMinute);
+}
+
 //home route
 app.get('/api/home', (req, res) => {
   res.json({ message: 'Welcome to the home page!' });
+});
+
+// Blog fetching endpoint
+app.get('/api/blogs', async (req, res) => {
+  try {
+    const response = await fetch(
+      "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@werulkaratharva"
+    );
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch blog posts from RSS');
+    }
+    
+    const data: BlogResponse = await response.json();
+    
+    // Process and enhance the blog data
+    const processedBlogs = data.items.map(blog => ({
+      ...blog,
+      excerpt: stripHtml(blog.description).substring(0, 150) + '...',
+      thumbnail: extractThumbnail(blog.content),
+      readTime: calculateReadTime(blog.content)
+    }));
+    
+    res.json({
+      success: true,
+      data: {
+        feed: data.feed,
+        blogs: processedBlogs,
+        count: processedBlogs.length
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch blog posts',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
 });
 
 app.post('/api/send-email', async (req, res) => {
@@ -55,4 +136,6 @@ app.post('/api/send-email', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+  console.log('Blog endpoint available at /api/blogs');
+  console.log('Email endpoint available at /api/send-email');
 });
