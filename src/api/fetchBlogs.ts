@@ -36,7 +36,7 @@ export const fetchBlogs = async (): Promise<BlogPost[]> => {
     const apiUrl = import.meta.env.VITE_API_URL;
     
     try {
-      response = await fetch(`${apiUrl}/blogs`);
+      response = await fetch(`${apiUrl}/api/blogs`);
       if (response.ok) {
         responseData = await response.json() as ServerResponse;
         if (responseData.success && responseData.data) {
