@@ -131,10 +131,11 @@ npm install xmldom @types/xmldom
 - **RSS Source**: Medium RSS feed (`@werulkaratharva`)
 - **Endpoint**: `/api/blogs` - Returns processed blog data
 - **Direct XML Parsing**: Fetches XML directly from Medium without third-party APIs
-- **CORS Proxy**: Uses corsproxy.io to handle cross-origin requests when accessing Medium's RSS feed
+- **Multiple CORS Proxies**: Tries several CORS proxies (allorigins.win, thingproxy, codetabs) when accessing Medium's RSS feed
 - **Unlimited Posts**: Gets all available blog posts (not limited to 10)
-- **Multiple Fallbacks**: Server-side fetching → CORS proxy → Sample data fallback
+- **Production-Ready Fallbacks**: Server-side fetching → Multiple CORS proxies → Server fallback data → Client fallback data
 - **XML Parsing**: Custom DOMParser implementation for both client (browser) and server (xmldom)
+- **Error Resilience**: Robust error handling and multiple fallback mechanisms ensure content always displays
 - **Data Processing**: Extracts thumbnails, categories, calculates read time, formats content
 
 ### Customization

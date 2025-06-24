@@ -5,10 +5,18 @@ import nodemailer from 'nodemailer';
 const app = express();
 const port = 3001;
 
+// Expanded CORS configuration for better compatibility
 app.use(cors({
-  origin: ['http://localhost:8080', 'https://atharva-werulkar.vercel.app', 'https://profolio-new.vercel.app'],
+  origin: [
+    'http://localhost:8080', 
+    'http://localhost:5173',
+    'https://atharva-werulkar.vercel.app', 
+    'https://profolio-new.vercel.app',
+    'https://react-site-design.vercel.app'
+  ],
   methods: ['GET', 'POST', 'OPTIONS'],
-  credentials: true
+  credentials: true,
+  maxAge: 86400 // CORS preflight cache time (24 hours)
 }));
 app.use(express.json());
 
@@ -74,18 +82,24 @@ app.get('/api/home', (req, res) => {
 // Blog fetching endpoint
 app.get('/api/blogs', async (req, res) => {
   try {
+    console.log('Received request for /api/blogs');
+    
     // Fetch directly from Medium's RSS feed
     const response = await fetch(
       "https://medium.com/feed/@werulkaratharva", 
       {
         headers: {
-          'Accept': 'application/xml, text/xml, */*'
-        }
+          'Accept': 'application/xml, text/xml, */*',
+          'User-Agent': 'Mozilla/5.0 Portfolio Website (Node.js Server)'
+        },
+        // Set a reasonable timeout
+        signal: AbortSignal.timeout(10000) // 10 seconds timeout
       }
     );
     
     if (!response.ok) {
-      throw new Error('Failed to fetch blog posts from RSS');
+      console.error(`Medium API response not OK: ${response.status} ${response.statusText}`);
+      throw new Error(`Failed to fetch blog posts from RSS: ${response.status} ${response.statusText}`);
     }
     
     const xmlText = await response.text();
@@ -198,9 +212,64 @@ app.get('/api/blogs', async (req, res) => {
         blogs,
         count: blogs.length
       }
-    });
-  } catch (error) {
+    });  } catch (error) {
     console.error('Error fetching blogs:', error);
+    
+    // Return fallback data if available, better than nothing
+    const provideFallbackData = true;
+    
+    if (provideFallbackData) {
+      console.log('Providing fallback data due to error');
+      
+      // Simple fallback data when the API fails
+      const fallbackBlogs = [
+        {
+          title: "Beginner's Guide to Integrating REST API in Flutter",
+          pubDate: "Tue, 24 Jun 2025 08:26:09 GMT",
+          link: "https://medium.com/@werulkaratharva",
+          guid: "server-fallback-1",
+          author: "Werulkaratharva",
+          thumbnail: "https://cdn-images-1.medium.com/max/1024/1*0OsKr2L8fMz3hLlgJHvtCg.png",
+          description: "API integration guide for Flutter",
+          content: "<p>Sample fallback content from server</p>",
+          categories: ["flutter", "api"],
+          excerpt: "This is fallback data from the server when Medium API fails",
+          readTime: 5
+        },
+        {
+          title: "Firebase Remote Config for App Updates",
+          pubDate: "Fri, 20 Jun 2025 09:42:35 GMT",
+          link: "https://medium.com/@werulkaratharva",
+          guid: "server-fallback-2",
+          author: "Werulkaratharva",
+          thumbnail: "https://cdn-images-1.medium.com/max/1024/1*DLVQuCyVLu3CONoy2s1ZRg.png",
+          description: "Using Firebase for app updates",
+          content: "<p>Sample fallback content from server</p>",
+          categories: ["firebase", "flutter"],
+          excerpt: "This is fallback data from the server when Medium API fails",
+          readTime: 4
+        }
+      ];
+      
+      return res.json({
+        success: true,
+        data: {
+          feed: {
+            url: "https://medium.com/feed/@werulkaratharva",
+            title: "Atharva Werulkar's Blog (Fallback)",
+            link: "https://medium.com/@werulkaratharva",
+            author: "Atharva Werulkar",
+            description: "Fallback data when API is unavailable",
+            image: ""
+          },
+          blogs: fallbackBlogs,
+          count: fallbackBlogs.length,
+          isFallback: true
+        }
+      });
+    }
+    
+    // Only reach here if fallback data is disabled
     res.status(500).json({
       success: false,
       message: 'Failed to fetch blog posts',
