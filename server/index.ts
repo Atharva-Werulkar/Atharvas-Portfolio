@@ -23,6 +23,8 @@ interface BlogPost {
   description: string;
   content: string;
   categories: string[];
+  excerpt?: string;
+  readTime?: number;
 }
 
 interface BlogResponse {
@@ -51,10 +53,10 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, '');
 }
 
-function extractThumbnail(content: string): string | null {
+function extractThumbnail(content: string): string {
   const imgRegex = /<img[^>]+src="([^">]+)"/;
   const match = content.match(imgRegex);
-  return match ? match[1] : null;
+  return match ? match[1] : '';
 }
 
 function calculateReadTime(content: string): number {
@@ -72,30 +74,129 @@ app.get('/api/home', (req, res) => {
 // Blog fetching endpoint
 app.get('/api/blogs', async (req, res) => {
   try {
+    // Fetch directly from Medium's RSS feed
     const response = await fetch(
-      "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@werulkaratharva"
+      "https://medium.com/feed/@werulkaratharva", 
+      {
+        headers: {
+          'Accept': 'application/xml, text/xml, */*'
+        }
+      }
     );
     
     if (!response.ok) {
       throw new Error('Failed to fetch blog posts from RSS');
     }
     
-    const data: BlogResponse = await response.json();
+    const xmlText = await response.text();
     
-    // Process and enhance the blog data
-    const processedBlogs = data.items.map(blog => ({
-      ...blog,
-      excerpt: stripHtml(blog.description).substring(0, 150) + '...',
-      thumbnail: extractThumbnail(blog.content),
-      readTime: calculateReadTime(blog.content)
-    }));
+    // Parse the XML using DOMParser
+    const { DOMParser } = await import('xmldom');
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+    
+    // Get channel information (feed metadata)
+    const channel = xmlDoc.getElementsByTagName('channel')[0];
+    const feedTitle = channel.getElementsByTagName('title')[0]?.textContent || '';
+    const feedLink = channel.getElementsByTagName('link')[0]?.textContent || '';
+    const feedDesc = channel.getElementsByTagName('description')[0]?.textContent || '';
+    
+    // Helper function for getting text from node
+    const getElementText = (element: Element, tagName: string): string => {
+      if (!element) return '';
+      const nodes = element.getElementsByTagName(tagName);
+      if (nodes.length === 0) return '';
+      return nodes[0].textContent?.trim() || '';
+    };
+    
+    // Process all items/posts
+    const items = xmlDoc.getElementsByTagName('item');
+    const blogs: BlogPost[] = [];
+    
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      
+      // Get title
+      let title = getElementText(item, 'title');
+      title = title.replace(/^\s*<!\[CDATA\[(.*)\]\]>\s*$/, '$1').trim();
+      
+      // Get link
+      const link = getElementText(item, 'link');
+      
+      // Get pubDate
+      const pubDate = getElementText(item, 'pubDate');
+      
+      // Get guid
+      const guid = getElementText(item, 'guid');
+      
+      // Get author - handle namespaced tags
+      let author = '';
+      const creatorTags = item.getElementsByTagName('dc:creator');
+      if (creatorTags.length > 0) {
+        author = creatorTags[0].textContent?.trim() || '';
+      } else {
+        author = 'Atharva Werulkar';
+      }
+      author = author.replace(/^\s*<!\[CDATA\[(.*)\]\]>\s*$/, '$1').trim();
+      
+      // Get description
+      let description = getElementText(item, 'description');
+      description = description.replace(/^\s*<!\[CDATA\[(.*)\]\]>\s*$/, '$1').trim();
+      
+      // Get content - handle namespaced tags
+      let content = '';
+      const contentTags = item.getElementsByTagName('content:encoded');
+      if (contentTags.length > 0) {
+        content = contentTags[0].textContent?.trim() || '';
+      }
+      content = content.replace(/^\s*<!\[CDATA\[(.*)\]\]>\s*$/, '$1').trim();
+      
+      // Get categories
+      const categories: string[] = [];
+      const categoryNodes = item.getElementsByTagName('category');
+      for (let j = 0; j < categoryNodes.length; j++) {
+        const cat = categoryNodes[j].textContent?.trim();
+        if (cat) categories.push(cat);
+      }
+      
+      // Extract thumbnail
+      const thumbnail = extractThumbnail(content);
+      
+      // Calculate excerpt
+      const excerpt = stripHtml(content).substring(0, 150) + '...';
+      
+      // Calculate read time
+      const readTime = calculateReadTime(content);
+      
+      // Create blog post object
+      blogs.push({
+        title,
+        pubDate,
+        link,
+        guid,
+        author,
+        thumbnail,
+        description,
+        content,
+        categories,
+        excerpt,
+        readTime
+      });
+    }
     
     res.json({
       success: true,
       data: {
-        feed: data.feed,
-        blogs: processedBlogs,
-        count: processedBlogs.length
+        feed: {
+          url: "https://medium.com/feed/@werulkaratharva",
+          title: feedTitle,
+          link: feedLink,
+          author: "Atharva Werulkar",
+          description: feedDesc,
+          image: ""
+        },
+        blogs,
+        count: blogs.length
       }
     });
   } catch (error) {

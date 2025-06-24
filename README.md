@@ -118,14 +118,24 @@ The project includes a Node.js/Express server for blog processing:
 
 # Or manually:
 cd server && npm run dev  # Server (Port 3001)
-npm run dev              # Client (Port 8080)
+npm run dev              # Client (Port 5173)
+```
+
+For server development:
+```bash
+# Install xmldom for XML parsing
+npm install xmldom @types/xmldom
 ```
 
 ### Blog Configuration
 - **RSS Source**: Medium RSS feed (`@werulkaratharva`)
 - **Endpoint**: `/api/blogs` - Returns processed blog data
-- **Fallback**: Direct RSS fetch if server unavailable
-- **Data Processing**: Extracts thumbnails, calculates read time, formats content
+- **Direct XML Parsing**: Fetches XML directly from Medium without third-party APIs
+- **CORS Proxy**: Uses corsproxy.io to handle cross-origin requests when accessing Medium's RSS feed
+- **Unlimited Posts**: Gets all available blog posts (not limited to 10)
+- **Multiple Fallbacks**: Server-side fetching → CORS proxy → Sample data fallback
+- **XML Parsing**: Custom DOMParser implementation for both client (browser) and server (xmldom)
+- **Data Processing**: Extracts thumbnails, categories, calculates read time, formats content
 
 ### Customization
 1. Update the Medium username in `server/index.ts`
